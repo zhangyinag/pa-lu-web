@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mock Server Console</title>
+    <link rel="stylesheet" href="ui.css">
+    <link rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+</head>
+<body>
+    <div id="app" class="main">
+        <div class="aside">
+            <ul class="list-group">
+                <li class="list-group__item"
+                    :class="{active: currentCollection && currentCollection.name === name}"
+                    v-for="name in collectionNames" :key="name"
+                    @click="changeCollection(name)">{{name}}</li>
+            </ul>
+        </div>
+        <div class="content">
+            <pre><code id="hlBlock" v-once>{{expr}}</code></pre>
+            <div class="editor">
+                <div style="height: 36px; background: #b4bccc;">
+                    <button type="button" @click="exec">&nbsp;执行</button>
+                </div>
+                <textarea
+                        style="height: 100%; width: 100%; outline: none;"
+                        placeholder="请输入内容"
+                        v-model="expr">
+                </textarea>
+            </div>
+            <div class="view">
+                <table border style="border-collapse: collapse; width: 100%; margin-top: 20px;">
+                    <thead>
+                        <tr>
+                            <th v-for="key in keys" :key="key">{{key}}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="(row, i) in dataList" :key="i">
+                            <td v-for="key in keys" :key="key">
+                                <pre><code class="json">{{row[key]}}</code></pre>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+               <!--  <el-table
+                        :data="currentCollection && currentCollection.data"
+                        stripe
+                        border
+                        style="width: 100%">
+                    <el-table-column v-for="key in keys" :key="key"
+                            :label="key">
+                        <pre slot-scope="{row}"><code class="json">{{row[key]}}</code></pre>
+                    </el-table-column>
+                </el-table> -->
+            </div>
+        </div>
+    </div>
+    <script src="../../node_modules/axios/dist/axios.js"></script>
+    <script src="../../node_modules/vue/dist/vue.js"></script>
+    <script>if(hljs)hljs.initHighlightingOnLoad();</script>
+    <script src="app.js"></script>
+</body>
+</html>
